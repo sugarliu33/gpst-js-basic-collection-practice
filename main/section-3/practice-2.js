@@ -12,13 +12,13 @@ function includes(collection, ch) {
 
 module.exports = function createUpdatedCollection(collectionA, objectB) {
     let result = [];
-    for (let item of collectionA) {
+    collectionA.map(function (item) {
         let key = item.key;
         let count = item.count;
-        if (includes(objectB.value, key)) {
+        if (objectB.value.includes(key)) {
             count = count - Math.floor(count / 3);
         }
         result.push({key, count});
-    }
+    });
     return result;
 }
