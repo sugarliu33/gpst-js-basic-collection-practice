@@ -1,25 +1,11 @@
 'use strict';
 
-function find(collection, ch) {
-    for (let item of collection) {
-        if (item.name === ch) {
-            return item;
-        }
-    }
-
-    return null;
-}
-
 function summarize(collection) {
     let result = [];
-    for (let item of collection) {
-        let obj = find(result, item)
-        if (obj) {
-            obj.summary++;
-        } else {
-            result.push({name: item, summary: 1});
-        }
-    }
+    collection.map(function (item) {
+        let obj = result.find(result => result.name === item);
+        obj ? obj.summary++ : result.push({name: item, summary: 1})
+    });
     return result;
 }
 
@@ -42,21 +28,18 @@ function split(item) {
 }
 
 function push(result, key, count) {
-    for (var i = 0; i < count; i++) {
+    let i = 0;
+    while (i < count){
         result.push(key);
+        i++;
     }
 }
 
 function expand(collection) {
     let result = [];
-    for (let item of collection) {
-        if (item.length === 1) {
-            result.push(item);
-        } else {
-            let {key, count} = split(item);
-            push(result, key, count);
-        }
-    }
+    collection.map(function (item) {
+        item.length === 1 ? result.push(item) : push(result, split(item).key, split(item).count) ;
+    });
     return result;
 }
 
